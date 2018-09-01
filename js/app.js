@@ -10,8 +10,7 @@ function buildArticle(obj, num) {
 				<div class='article__info'>
 					<a href='' class='article__title'><h2>${obj['headline']}</h2></a>
 					<h3>${obj['byline']}</h3>
-				</div>
-				<div class='article__rating'>${obj['mpaa_rating']}</div>`;
+				</div>`;
 	var article = document.createElement('article');
 	main.appendChild(article);
 	article.className = "article__listing";
