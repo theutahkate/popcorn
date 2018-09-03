@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Popcorn | Hot Buttered Movie News</title>
+    <title>Popcorn | Hot Buttered Entertainment News</title>
     <link rel="stylesheet" href="css/normalize.css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="css/styles.css" media="screen" charset="utf-8">
-    <link href="https://fonts.googleapis.com/css?family=Carter+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
@@ -20,15 +20,19 @@
         <a href="#">
           <div class="popcorn" aria-hidden="true">🍿</div>
           <h1>Popcorn
-            <span>feeding you movie news since 2018</span>
+            <span>feeding you entertainment news since 2018</span>
           </h1>
+          <div class="popcorn" aria-hidden="true">🍿</div>
         </a>
-        <nav role="navigation">
-          <button class="source__btn" aria-label="show articles from The New York Times">
+        <nav class="source__container" role="navigation">
+          <button class="source__btn" id="nyt" aria-label="show articles from The New York Times">
             <span class="skew-offset">New York Times</span>
           </button>
-          <button class="source__btn" aria-label="show articles from The Guardian">
-            <span class="skew-offset">The Guardian</span>
+          <button class="source__btn" id="ew" aria-label="show articles from Entertainment Weekly">
+            <span class="skew-offset">Entertainment Weekly</span>
+          </button>
+          <button class="source__btn" id="indiewire" aria-label="show articles from Entertainment Weekly">
+            <span class="skew-offset">IndieWire</span>
           </button>
         </nav>
       </section>
