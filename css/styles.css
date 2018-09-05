@@ -35,7 +35,8 @@ header {
 	margin-right: 0;
 }
 
-.source__btn:hover {
+.source__btn:hover,
+.source__btn.active {
 	background-color: #FAFAFA;
 	border-color: #406D5A;
 	color: #222;
@@ -73,9 +74,10 @@ a {
 .header__title {
 	display: inline-block;
 	margin-bottom: 3rem;
-	font-size: 6.5rem;
 	font-family: 'Kanit', Arial, sans-serif;
+	font-size: 6.5rem;
 	font-weight: 900;
+	color: #FAFAFA;
 }
 
 .header__title span {
