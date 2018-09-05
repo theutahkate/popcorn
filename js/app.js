@@ -2,28 +2,41 @@
 	document.querySelector('.no-js').classList.remove('no-js');
 })
 
+const main = document.querySelector("#main"),
+			titleLinks = document.querySelectorAll(".article__title-link"),
+			modal = document.querySelector("#modal");
+
+document.querySelector("#nytimes").addEventListener("click", nytApi);
+document.querySelector("#ew").addEventListener("click", newsApi);
+document.querySelector("#tvline").addEventListener("click", newsApi);
+document.querySelector("#closeModal").addEventListener("click", function() {
+	modal.classList.add("hidden");
+})
+
 function buildArticle(dataObj, num) {
-	console.log(dataObj)
-		var	articleId = `article-${num}`;
+	var	article = document.createElement('article'),
 			articleInnards =
-				`<div class='img-container'><img src='${dataObj.imgUrl}' alt=''></div>
-				<div class='article__info'>
-					<a href='' class='article__title'><h2>${dataObj.headline}</h2></a>
-					<h3>${dataObj.author}</h3>
-				</div>`;
-	var article = document.createElement('article');
+				`<div class='img-container'>
+						<img src='${dataObj.imgUrl}' alt=''>
+					</div>
+					<div class='article__info'>
+						<h2 class='article__title'>
+							<button id='article-${num}' class='article__modal-btn'>${dataObj.headline}
+							</button>
+						</h2>
+						<h3>${dataObj.author}</h3>
+					</div>`;
 	main.appendChild(article);
 	article.className = "article__listing";
-	article.setAttribute("id", articleId);
 	article.innerHTML = articleInnards;
+	document.querySelector(`#article-${num}`).addEventListener("click", function() {
+		modal.classList.remove("hidden");
+		document.querySelector(".modal__title").innerHTML = `${dataObj.headline}`;
+		document.querySelector(".modal__desc").innerHTML = `${dataObj.description}`;
+		document.querySelector(".modal__link").setAttribute("href", `${dataObj.url}`);
+	})
 }
 
-var main = document.querySelector("#main");
-document.querySelector("#nyt").addEventListener("click", nytApi);
-document.querySelector("#ew").addEventListener("click", ewApi);
-document.querySelector("#indiewire").addEventListener("click", indieWireApi);
-
-// NYT API
 function nytApi() {
 	var url = "https://api.nytimes.com/svc/movies/v2/reviews/search.json";
 	url += '?' + $.param({
@@ -46,86 +59,51 @@ function nytApi() {
 	});
 }
 
+function newsApi() {
+	const baseUrl = 'https://newsapi.org/v2/everything?domains=',
+			key = '&apiKey=66127631ccb94c1bb2e2a789f1d5392b';
+	var	src = `${this.id}.com`
+			url = baseUrl + src + key,
+			req = new Request(url);
+	fetch(req)
+		.then(function(response) {
+			return response.json();
+		})
+		.then(function(data) {
+			var count = 0,
+					parsedData = normalizeNewsApiData(data.articles);
+			main.innerHTML = "";
+		  for (var i = 0; i < parsedData.length; i++) {
+			  buildArticle(parsedData[i], count);
+			  count++;
+		  }
+		});
+}
+
 function normalizeNytData(obj) {
-	var nytNormalData = [];
+	var normalData = [];
 	for (var i = 0; i < obj.length; i++) {
-		var nytDataObj = {};
-		nytDataObj.author = obj[i].byline;
-		nytDataObj.headline = obj[i].headline;
-		nytDataObj.imgUrl = obj[i].multimedia.src;
-		nytDataObj.description = obj[i].summary_short;
-		nytDataObj.url= obj[i].link.url;
-		nytNormalData.push(nytDataObj);
+		var articleObj = {};
+		articleObj.author = obj[i].byline;
+		articleObj.headline = obj[i].headline;
+		articleObj.imgUrl = obj[i].multimedia.src;
+		articleObj.description = obj[i].summary_short;
+		articleObj.url= obj[i].link.url;
+		normalData.push(articleObj);
 	}
-	return nytNormalData;
+	return normalData;
 }
 
-function normalizeEwData(obj) {
-	var ewNormalData = [];
+function normalizeNewsApiData(obj) {
+	var normalData = [];
 	for (var i = 0; i < obj.length; i++) {
-		var ewDataObj = {};
-		ewDataObj.author = obj[i].author;
-		ewDataObj.description = obj[i].description;
-		ewDataObj.headline = obj[i].title;
-		ewDataObj.url= obj[i].url;
-		ewDataObj.imgUrl = obj[i].urlToImage;
-		ewNormalData.push(ewDataObj);
+		var articleObj = {};
+		articleObj.author = obj[i].author;
+		articleObj.description = obj[i].description;
+		articleObj.headline = obj[i].title;
+		articleObj.url= obj[i].url;
+		articleObj.imgUrl = obj[i].urlToImage;
+		normalData.push(articleObj);
 	}
-	return ewNormalData;
-}
-
-function normalizeIndieWireData(obj) {
-	var indieWireNormalData = [];
-	for (var i = 0; i < obj.length; i++) {
-		var indieWireDataObj = {};
-		indieWireDataObj.author = obj[i].author;
-		indieWireDataObj.description = obj[i].description;
-		indieWireDataObj.headline = obj[i].title;
-		indieWireDataObj.url= obj[i].url;
-		indieWireDataObj.imgUrl = obj[i].urlToImage;
-		indieWireNormalData.push(indieWireDataObj);
-	}
-	return indieWireNormalData;
-}
-
-function ewApi() {
-	const baseUrl = 'https://newsapi.org/v2/everything?domains=',
-			domain = 'ew.com',
-			key = '&apiKey=66127631ccb94c1bb2e2a789f1d5392b';
-	var	url = baseUrl + domain + key,
-			req = new Request(url);
-	fetch(req)
-		.then(function(response) {
-			return response.json();
-		})
-		.then(function(data) {
-			var count = 0,
-					ewArray = normalizeEwData(data.articles);
-			main.innerHTML = "";
-		  for (var i = 0; i < ewArray.length; i++) {
-			  buildArticle(ewArray[i], count);
-			  count++;
-		  }
-		});
-}
-
-function indieWireApi() {
-	const baseUrl = 'https://newsapi.org/v2/everything?domains=',
-			domain = 'indiewire.com',
-			key = '&apiKey=66127631ccb94c1bb2e2a789f1d5392b';
-	var	url = baseUrl + domain + key,
-			req = new Request(url);
-	fetch(req)
-		.then(function(response) {
-			return response.json();
-		})
-		.then(function(data) {
-			var count = 0,
-					indieWireArray = normalizeIndieWireData(data.articles);
-			main.innerHTML = "";
-		  for (var i = 0; i < indieWireArray.length; i++) {
-			  buildArticle(indieWireArray[i], count);
-			  count++;
-		  }
-		});
+	return normalData
 }

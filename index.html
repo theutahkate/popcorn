@@ -15,39 +15,41 @@
     <!--[if lt IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
+
+    <div id="modal" class="loader hidden">
+      <div id="modal__container">
+        <div class="modal__content">
+          <button id="closeModal" aria-label="close pop up">X</button>
+          <h1 class="modal__title"></h1>
+          <p class="modal__desc"></p>
+          <a href="" class="modal__link" target="_blank" aria-label="opens in new tab">Read the full article</a>
+        </div>
+      </div>
+    </div>
+
     <header>
       <section class="container">
         <a href="#">
           <div class="popcorn" aria-hidden="true">🍿</div>
-          <h1>Popcorn
+          <h1 class="header__title">Popcorn
             <span>feeding you entertainment news since 2018</span>
           </h1>
           <div class="popcorn" aria-hidden="true">🍿</div>
         </a>
-        <nav class="source__container" role="navigation">
-          <button class="source__btn" id="nyt" aria-label="show articles from The New York Times">
-            <span class="skew-offset">New York Times</span>
+        <div class="source__container">
+          <button class="source__btn" id="tvline" aria-label="show articles from TVLine.com">
+            <span class="skew-offset">TVLine</span>
           </button>
           <button class="source__btn" id="ew" aria-label="show articles from Entertainment Weekly">
             <span class="skew-offset">Entertainment Weekly</span>
           </button>
-          <button class="source__btn" id="indiewire" aria-label="show articles from Entertainment Weekly">
-            <span class="skew-offset">IndieWire</span>
+          <button class="source__btn" id="nytimes" aria-label="show articles from The New York Times">
+            <span class="skew-offset">New York Times</span>
           </button>
-        </nav>
+        </div>
       </section>
     </header>
 
-    <div id="popUp" class="loader hidden">
-      <a href="#" class="closePopUp">X</a>
-      <div class="container">
-        <h1>Article title here</h1>
-        <p>
-          Article description/content here.
-        </p>
-        <a href="#" class="popUpAction" target="_blank">Read more from source</a>
-      </div>
-    </div>
 
     <main id="main" class="container" role="main"></main>
 
